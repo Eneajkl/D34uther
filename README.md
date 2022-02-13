@@ -4,4 +4,4 @@
   - Python3
   - Aireplay-ng
 - Usage:
-- `$ Python3 D34uther.py`
+`$ Python3 D34uther.py`
