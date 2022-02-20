@@ -2,6 +2,5 @@
 - This software working only GNU/Linux
 - Requirements:
   - Python3
-  - Aireplay-ng
 - Usage:
-`$ Python3 D34uther.py`
+`$ sudo python3 D34uther.py`
