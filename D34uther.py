@@ -20,16 +20,16 @@ def banner():
   """)
 
 def monitorModeOn():
-  subprocess.call(["service","NetworkManager","stop"])
-  subprocess.call(["ifconfig", interface, "down"])
-  subprocess.call(["iwconfig", interface, "mode", "monitor"])
-  subprocess.call(["ifconfig", interface, "up"])
+  subprocess.call(["systemctl","stop","NetworkManager"])
+  subprocess.call(["sudo","ifconfig", interface, "down"])
+  subprocess.call(["sudo","iwconfig", interface, "mode", "monitor"])
+  subprocess.call(["sudo","ifconfig", interface, "up"])
 
 def monitorModeOff():
   subprocess.call(["ifconfig", interface, "down"])
-  subprocess.call(["iwconfig", interface, "mode", "managed"])
-  subprocess.call(["ifconfig", interface, "up"])
-  subprocess.call(["service","NetworkManager","start"])
+  subprocess.call(["sudo","iwconfig", interface, "mode", "managed"])
+  subprocess.call(["sudo","ifconfig", interface, "up"])
+  subprocess.call(["sudo","systemctl","start","NetworkManager"])
 
 print(Fore.LIGHTYELLOW_EX )
 banner()

