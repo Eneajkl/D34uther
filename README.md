@@ -3,6 +3,8 @@
 - Requirements:
   - Python3
   - PyQt5(for xD34uther)
+  - net-tools
+  - wireless-tools
 - Usage:
 `$ sudo python3 D34uther.py`
 
