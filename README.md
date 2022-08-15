@@ -1,4 +1,4 @@
-# Fr0z3n-D34uther
+# D34uther
 - This software working only GNU/Linux
 - Requirements:
   - Python3
