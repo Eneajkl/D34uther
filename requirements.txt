@@ -1,0 +1,4 @@
+colorama
+numpy
+scapy
+PyQt5

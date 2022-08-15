@@ -6,6 +6,8 @@
   - net-tools
   - wireless-tools
 - Usage:
+`$ apt install net-tools wireless-tools`
+`$ pip3 install -r requirements.txt`
 `$ sudo python3 D34uther.py`
 
 - xD34uther is D34uther's GUI version 
