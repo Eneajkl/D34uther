@@ -35,13 +35,25 @@ class MainWindow(QWidget):
     self.setLayout(vertical)
     self.show()
 
+  def networkmanagerfinder(self):
+      file=open("networkmanager.txt","r",encoding="utf-8")
+      manager=file.read()
+      subprocess.call(["rm","networkmanager.txt"])
+      manager=str(manager)
+      manager=manager.split("N")
+      manager=("N"+manager[1])
+      manager=manager.split(".")
+      manager=manager[0]
+      return manager
+
   def starta(self):
+      networkmanger = str(self.networkmanagerfinder())
       interface=self.InterfaceLine.text()
       bssid=self.BssidLine.text()
       targetmac=self.TargetLine.text()
       countt=int(self.CountLine.text())
 
-      subprocess.call(["systemctl","stop","NetworkManager"])
+      subprocess.call(["systemctl","stop",networkmanger])
       subprocess.call(["sudo","ifconfig", interface, "down"])
       subprocess.call(["sudo","iwconfig", interface, "mode", "monitor"])
       subprocess.call(["sudo","ifconfig", interface, "up"])
@@ -53,7 +65,7 @@ class MainWindow(QWidget):
       subprocess.call(["sudo","ifconfig", interface, "down"])
       subprocess.call(["sudo","iwconfig", interface, "mode", "managed"])
       subprocess.call(["sudo","ifconfig", interface, "up"])
-      subprocess.call(["systemctl","start","NetworkManager"])
+      subprocess.call(["systemctl","start",networkmanger])
       
         
 Deauther=QApplication(sys.argv)
