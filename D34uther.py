@@ -1,7 +1,7 @@
 #this is just a simple script for educational purposes only
 import subprocess
 from colorama import Fore,Style
-from numpy import choose
+import netifaces
 from scapy.all import *
 
 def banner():
@@ -19,36 +19,42 @@ def banner():
 
   """)
 
-def networkmanagerfinder():
-    file=open("networkmanager.txt","r",encoding="utf-8")
-    manager=file.read()
-    subprocess.call(["rm","networkmanager.txt"])
-    manager=str(manager)
-    manager=manager.split("N")
-    manager=("N"+manager[1])
-    manager=manager.split(".")
-    manager=manager[0]
-    return manager
+def get_network_manager_service_name():
+    cmd = "systemctl list-units --type=service --all | grep NetworkManager.service"
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, _ = process.communicate()
+    output = output.decode().strip()
+    service_name = output.split()[0]
+    return service_name
 
-networkmanger = str(networkmanagerfinder())
+networkmanger = str(get_network_manager_service_name())
 
 def monitorModeOn():
-  subprocess.call(["systemctl","stop",networkmanger])
-  subprocess.call(["sudo","ifconfig", interface, "down"])
-  subprocess.call(["sudo","iwconfig", interface, "mode", "monitor"])
-  subprocess.call(["sudo","ifconfig", interface, "up"])
+  commands=[f"sudo systemctl stop {networkmanger} && sudo ifconfig {interface} down && sudo iwconfig {interface} mode monitor && sudo ifconfig {interface} up"]
+  for i in commands:
+    subprocess.run(commands,shell=True)
 
 def monitorModeOff():
-  subprocess.call(["ifconfig", interface, "down"])
-  subprocess.call(["sudo","iwconfig", interface, "mode", "managed"])
-  subprocess.call(["sudo","ifconfig", interface, "up"])
-  subprocess.call(["sudo","systemctl","start",networkmanger])
+  commands=[f"sudo systemctl stop {networkmanger} && sudo ifconfig {interface} down && sudo iwconfig {interface} mode managed && sudo ifconfig {interface} up && sudo systemctl restart {networkmanger}"]
+  for i in commands:
+    subprocess.run(commands,shell=True)
+
+def interface_selecter():
+  interfaces=netifaces.interfaces()
+  selector=0
+
+  for i in interfaces:
+    print("[",selector,"] ",i)
+    selector+=1
+  
+  selected_interface_id=int(input("Interface ID: "))
+  return interfaces[selected_interface_id]
 
 print(Fore.LIGHTYELLOW_EX )
 banner()
 print(Fore.LIGHTRED_EX)
 
-interface=str(input("Interface:"))
+interface=str(interface_selecter())
 
 monitorModeOn()
 
@@ -63,7 +69,7 @@ if choose == "Y" or choose == "y":
 elif choose == "n" or choose == "N":
   monitorModeOff()
 
-subprocess.call(["clear"])
+#subprocess.call(["clear"])
 print(Fore.LIGHTYELLOW_EX )
 banner()
 print(Fore.LIGHTRED_EX)
